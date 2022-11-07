@@ -1,0 +1,7 @@
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\bin\Debug\SupervisorProfileManager.exe.config
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\bin\Debug\SupervisorProfileManager.exe
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\bin\Debug\SupervisorProfileManager.pdb
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\obj\Debug\SupervisorProfileManager.csproj.CoreCompileInputs.cache
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\obj\Debug\SupervisorProfileManager.exe
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\obj\Debug\SupervisorProfileManager.pdb
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\obj\Debug\SupervisorProfileManager.csproj.AssemblyReference.cache

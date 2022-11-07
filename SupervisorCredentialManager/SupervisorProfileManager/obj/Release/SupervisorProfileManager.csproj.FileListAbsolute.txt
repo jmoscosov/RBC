@@ -1,0 +1,6 @@
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\bin\Release\SupervisorProfileManager.exe.config
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\bin\Release\SupervisorProfileManager.exe
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\bin\Release\SupervisorProfileManager.pdb
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\obj\Release\SupervisorProfileManager.csproj.CoreCompileInputs.cache
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\obj\Release\SupervisorProfileManager.exe
+C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\obj\Release\SupervisorProfileManager.pdb
