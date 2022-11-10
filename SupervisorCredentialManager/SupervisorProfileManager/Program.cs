@@ -21,174 +21,209 @@ namespace SupervisorProfileManager
             XmlDocument doc = new XmlDocument();
             List<cGroup> docXML = new List<cGroup>();
             string strPathFile = string.Empty;
-            
-            
             RegistryKey localKey;
-            if (Environment.Is64BitOperatingSystem)
-                localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-            else
+            bool bvalido = false;
+
+            try
+            {
+                LoggerClass.Log($"args number : {args.Length.ToString()}");
+               /* for (int i = 0; i < args.Length; i++)
+                {
+                    LoggerClass.Log($"args params : {args[i].ToString()}");
+                }*/
+/*
+                if (Environment.Is64BitOperatingSystem)
+                {
+                    localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                    LoggerClass.Log($"OS 64bits");
+                }
+                else
+                {
+                    localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+                    LoggerClass.Log($"OS 32bits");
+                }
+*/
                 localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
 
-            string strPathFilevalue = localKey.OpenSubKey("SOFTWARE\\NCR\\Advance NDC\\supervisor\\Password").GetValue("XMLFilePath").ToString();
-            int intSupervisorPasswordLength = Convert.ToInt32(localKey.OpenSubKey("SOFTWARE\\NCR\\Advance NDC\\supervisor\\Password").GetValue("SupervisorPasswordLength").ToString());
-
-
-            if ((localKey != null) && (string.IsNullOrEmpty(strPathFilevalue)== false))
-            {
-                Globals.strPathFile = strPathFilevalue;
-                Globals.intSupervisorPasswordLength = intSupervisorPasswordLength;
-                LoggerClass.Log($"Path file was found in the registry");
-            }
-            else
-            {
-                Globals.strPathFile = @"C:\Program Files\NCR APTRA\Advance NDC\Config\SupvPwd.xml";
-                LoggerClass.Log($"Path file was not found in the registry");
-            }
-            if (args.Length == 0)
-            {
-                // Console.WriteLine("Invalid format. Please read documentation, press any key for exit");
-                LoggerClass.Log($"Invalid format. Please read the documentation");
-                //Console.Read();
-                return;
-            }
-            doc = LoadXML(doc, Globals.strPathFile);
-            if(args.Length == 1)
-            {
-                if (args[0].Substring(1, args[0].Length - 1).ToLower() == "listgroups")
-                {
-                    // /listgroup 
-                    docXML = xmlToList(doc);
-                    ListGroups(docXML);
-
-                }
-                if (args[0].Substring(1, args[0].Length - 1).ToLower() == "listusers")
-                {
-                    // /listusers 
-                    docXML = xmlToList(doc);
-                    ListUsers(docXML);
-
-                }
-            }
-            if(args.Length == 4)
-            {
-                if (args[3].Substring(1, args[3].Length - 1).ToLower() == "updategroup")
-                {
-
-                    // idgroup groupname(optional) deniedupdate(optional) /updategroup 
-
-                    string strNameGroup = string.Empty;
-                    string strIdGroup = string.Empty;
-                    string strDeniedGroup = string.Empty;
-
-                    strIdGroup = args[0].Trim();
-                    strNameGroup = args[1].Trim();
-                    strDeniedGroup = args[2].Trim();
-                    bool cc = UpdateGroup(doc, strIdGroup, strNameGroup, strDeniedGroup);
-                }
-            }
-            if (args.Length == 3)
-            {
-
-
-
-                if (args[2].Substring(1, args[2].Length-1).ToLower() == "adduser")
-                {
-                    
-                       // password idgroup /adduser 
-                    
-                    string password = string.Empty;
-                    string idGroup = string.Empty;
-                    
-                    password = args[0].Trim();
-                    bool verifica = VerificarPassword(password);
-                    if (!verifica)
+                LoggerClass.Log($"LocalKey Value {localKey.ToString()}");
+                string strPathFilevalue = localKey.OpenSubKey("SOFTWARE\\NCR\\Advance NDC\\supervisor\\Password").GetValue("XMLFilePath").ToString();
+                int intSupervisorPasswordLength = Convert.ToInt32(localKey.OpenSubKey("SOFTWARE\\NCR\\Advance NDC\\supervisor\\Password").GetValue("SupervisorPasswordLength").ToString());
+                //LoggerClass.Log($"strPathFilevalue Value {strPathFilevalue.ToString()}");
+                if ((localKey != null) && (string.IsNullOrEmpty(strPathFilevalue)== false))
                     {
-                        LoggerClass.Log($"JM185384 - User ID wasn't created, because the password is not numeric");
-                        return;
-                    }
-                    idGroup = args[1].Trim();
-                    XmlElement objNewNode = doc.CreateElement("user");
-                    if(password.Length <= Globals.intSupervisorPasswordLength)
-                    {
-                        bool resp = AddUser(password, objNewNode, doc, idGroup);
+                        Globals.strPathFile = strPathFilevalue;
+                        Globals.intSupervisorPasswordLength = intSupervisorPasswordLength;
+                        LoggerClass.Log($"Path file was found in the registry");
                     }
                     else
                     {
-                        LoggerClass.Log($"JM185384 - User ID wasn't created, because the password exceeds the maximum. The password must have max.{Globals.intSupervisorPasswordLength.ToString()} numbers");
+                        Globals.strPathFile = @"C:\Program Files\NCR APTRA\Advance NDC\Config\SupvPwd.xml";
+                        LoggerClass.Log($"Path file was not found in the registry");
                     }
-                    
-                }
-            
-                if (args[2].Substring(1, args[2].Length-1).ToLower() == "updatepass")
+                if (args.Length == 0)
                 {
-                    /*
-                      userID newpass /updatepass 
-                     */
-
-                    string password = string.Empty;
-                    string idUser = string.Empty;
-                    password = args[1].Trim();
-                    bool verifica = VerificarPassword(password);
-                    if (!verifica)
-                    {
-                        LoggerClass.Log($"JM185384 - User ID wasn't updated, because the password is not numeric");
-                        return;
-                    }
-
-                    idUser = args[0].Trim();
-                    XmlElement objNewNode = doc.CreateElement("user");
-                    if (password.Length <= Globals.intSupervisorPasswordLength)
-                    {
-                        LoggerClass.Log($"JM185384 - Password length OK");
-                        bool resp3 = UpdatePassword(doc, objNewNode, idUser, password);
-
-                    }
-                    else
-                    {
-                        LoggerClass.Log($"JM185384 - New Password for User ID {idUser} wasn't updated, because the password exceeds the maximum. The password must have max.{Globals.intSupervisorPasswordLength.ToString()} numbers");
-                    }
-
+                    LoggerClass.Log($"JM185384 - command with no arguments");
+                    // Console.WriteLine("Invalid format. Please read documentation, press any key for exit");
+                    LoggerClass.Log($"Invalid format. Please read the documentation");
+                    //Console.Read();
+                    return;
                 }
-                if (args[2].Substring(1, args[2].Length - 1).ToLower() == "addgroup")
+                doc = LoadXML(doc, Globals.strPathFile);
+                if (args.Length == 1)
                 {
-                    /*
-                      groupName denied /addgroup 
-                     */
-                    string strgroupName = string.Empty;
-                    string strdenied = string.Empty;
+                    if (args[0].Substring(1, args[0].Length - 1).ToLower() == "listgroups")
+                    {
+                        // /listgroup 
+                        bvalido = true;
+                        LoggerClass.Log($"JM185384 - command listgroups");
+                        docXML = xmlToList(doc);
+                        ListGroups(docXML);
 
-                    strgroupName = args[0].Trim();
-                    strdenied = args[1].Trim();
-                    bool aa = CreateGroup(doc, strgroupName, strdenied);
+                    }
+                    if (args[0].Substring(1, args[0].Length - 1).ToLower() == "listusers")
+                    {
+                        // /listusers 
+                        bvalido = true;
+                        LoggerClass.Log($"JM185384 - command listusers");
+                        docXML = xmlToList(doc);
+                        ListUsers(docXML);
+
+                    }
                 }
+                if (args.Length == 4)
+                {
+                    if (args[3].Substring(1, args[3].Length - 1).ToLower() == "updategroup")
+                    {
+                        LoggerClass.Log($"JM185384 - command updategroup");
+                        // idgroup groupname(optional) deniedupdate(optional) /updategroup 
+                        bvalido = true;
+                        string strNameGroup = string.Empty;
+                        string strIdGroup = string.Empty;
+                        string strDeniedGroup = string.Empty;
+
+                        strIdGroup = args[0].Trim();
+                        strNameGroup = args[1].Trim();
+                        strDeniedGroup = args[2].Trim();
+                        bool cc = UpdateGroup(doc, strIdGroup, strNameGroup, strDeniedGroup);
+                    }
+                }
+                if (args.Length == 3)
+                {
+
+
+
+                    if (args[2].Substring(1, args[2].Length - 1).ToLower() == "adduser")
+                    {
+                        LoggerClass.Log($"JM185384 - command adduser");
+                        // password idgroup /adduser 
+                        bvalido = true;
+                        string password = string.Empty;
+                        string idGroup = string.Empty;
+
+                        password = args[0].Trim();
+                        bool verifica = VerificarPassword(password);
+                        if (!verifica)
+                        {
+                            LoggerClass.Log($"JM185384 - User ID wasn't created, because the password is not numeric");
+                            return;
+                        }
+                        idGroup = args[1].Trim();
+                        XmlElement objNewNode = doc.CreateElement("user");
+                        if (password.Length <= Globals.intSupervisorPasswordLength)
+                        {
+                            bool resp = AddUser(password, objNewNode, doc, idGroup);
+                        }
+                        else
+                        {
+                            LoggerClass.Log($"JM185384 - User ID wasn't created, because the password exceeds the maximum. The password must have max.{Globals.intSupervisorPasswordLength.ToString()} numbers");
+                        }
+
+                    }
+
+                    if (args[2].Substring(1, args[2].Length - 1).ToLower() == "updatepass")
+                    {
+                        /*
+                          userID newpass /updatepass 
+                         */
+                        bvalido = true;
+                        LoggerClass.Log($"JM185384 - command updatepass");
+                        string password = string.Empty;
+                        string idUser = string.Empty;
+                        password = args[1].Trim();
+                        bool verifica = VerificarPassword(password);
+                        if (!verifica)
+                        {
+                            LoggerClass.Log($"JM185384 - User ID wasn't updated, because the password is not numeric");
+                            return;
+                        }
+
+                        idUser = args[0].Trim();
+                        XmlElement objNewNode = doc.CreateElement("user");
+                        if (password.Length <= Globals.intSupervisorPasswordLength)
+                        {
+                            LoggerClass.Log($"JM185384 - Password length OK");
+                            bool resp3 = UpdatePassword(doc, objNewNode, idUser, password);
+
+                        }
+                        else
+                        {
+                            LoggerClass.Log($"JM185384 - New Password for User ID {idUser} wasn't updated, because the password exceeds the maximum. The password must have max.{Globals.intSupervisorPasswordLength.ToString()} numbers");
+                        }
+
+                    }
+                    if (args[2].Substring(1, args[2].Length - 1).ToLower() == "addgroup")
+                    {
+                        /*
+                          groupName denied /addgroup 
+                         */
+                        bvalido = true;
+                        LoggerClass.Log($"JM185384 - command addgroup");
+                        string strgroupName = string.Empty;
+                        string strdenied = string.Empty;
+
+                        strgroupName = args[0].Trim();
+                        strdenied = args[1].Trim();
+                        bool aa = CreateGroup(doc, strgroupName, strdenied);
+                    }
+                }
+                if (args.Length == 2)
+                {
+
+                    if (args[1].Substring(1, args[1].Length - 1).ToLower() == "deluser")
+                    {
+                        /*
+                            userID /deluser 
+                        */
+                        bvalido = true;
+                        LoggerClass.Log($"JM185384 - command deluser");
+                        string idUser = string.Empty;
+                        idUser = args[0].Trim();
+                        XmlElement objNewNode = doc.CreateElement("user");
+                        bool resp = DeleteUser(doc, objNewNode, idUser); ;
+                    }
+                    if (args[1].Substring(1, args[1].Length - 1).ToLower() == "delgroup")
+                    {
+                        /*
+                            userID /delgroup 
+                        */
+
+                        string strUserID = string.Empty;
+                        strUserID = args[0].Trim();
+                        bool bb = DeleteGroup(doc, strUserID);
+                    }
+
+                }
+                if (bvalido == false)
+                {
+                    LoggerClass.Log($"JM185384 - Command not executed, please check params");
+                }
+
             }
-            if (args.Length == 2)
+            catch (Exception ex)
             {
-               
-                if (args[1].Substring(1, args[1].Length-1).ToLower() == "deluser")
-                {
-                    /*
-                        userID /deluser 
-                    */
-
-                    string idUser = string.Empty;
-                    idUser = args[0].Trim();
-                    XmlElement objNewNode = doc.CreateElement("user");
-                    bool resp = DeleteUser(doc, objNewNode, idUser); ;
-                }
-                if (args[1].Substring(1, args[1].Length - 1).ToLower() == "delgroup")
-                {
-                    /*
-                        userID /delgroup 
-                    */
-
-                    string strUserID = string.Empty;
-                    strUserID = args[0].Trim();
-                    bool bb = DeleteGroup(doc, strUserID);
-                }
+                LoggerClass.Log($"JM185384 - Error : {ex.ToString()}");
 
             }
-
             // XmlElement objNewNode = doc.CreateElement("user");
             // XmlText text = doc.CreateTextNode("");
            // docXML = xmlToList(doc);
