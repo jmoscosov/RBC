@@ -101,17 +101,18 @@ namespace SupervisorProfileManager
                         string strNameGroup = string.Empty;
                         string strIdGroup = string.Empty;
                         string strDeniedGroup = string.Empty;
-                        String pattern = "^[A-Za-z]+$";
+                        //String pattern = "^[A-Za-z]+$";
+                        String pattern = "^[A-Za-z0-9\\s]+$"; //EXPRESION REGULAR PARA ESPACIOS EN BLANCO LETRAS Y NUMEROS
                         System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
 
-                        if (regex.IsMatch(args[1]))
+                       if (regex.IsMatch(args[1]))
                             LoggerClass.Log($"JM185384 - Namegroup OK");
                         else
                         {
                             LoggerClass.Log($"JM185384 - Incorrect characters, please check input namegroup parameters");
                             return;
                         }
-
+                    
                         strIdGroup = args[0].Trim();
                         strNameGroup = args[1].Trim();
                         strDeniedGroup = args[2].Trim();
@@ -191,7 +192,8 @@ namespace SupervisorProfileManager
                                                LoggerClass.Log($"JM185384 - command addgroup");
                         string strgroupName = string.Empty;
                         string strdenied = string.Empty;
-                        String pattern = "^[A-Za-z]+$";
+                      //  String pattern = "^[A-Za-z]+$";
+                        String pattern = "^[A-Za-z0-9\\s]+$";
                         System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
 
                         if (regex.IsMatch(args[0]))
