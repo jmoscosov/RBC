@@ -7,6 +7,7 @@ using System.Xml;
 using System.IO;
 using System.Xml.Serialization;
 using Microsoft.Win32;
+using System.Text.RegularExpressions;
 
 namespace SupervisorProfileManager
 {
@@ -100,6 +101,16 @@ namespace SupervisorProfileManager
                         string strNameGroup = string.Empty;
                         string strIdGroup = string.Empty;
                         string strDeniedGroup = string.Empty;
+                        String pattern = "^[A-Za-z]+$";
+                        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
+
+                        if (regex.IsMatch(args[1]))
+                            LoggerClass.Log($"JM185384 - Namegroup OK");
+                        else
+                        {
+                            LoggerClass.Log($"JM185384 - Incorrect characters, please check input namegroup parameters");
+                            return;
+                        }
 
                         strIdGroup = args[0].Trim();
                         strNameGroup = args[1].Trim();
@@ -177,10 +188,20 @@ namespace SupervisorProfileManager
                           groupName denied /addgroup 
                          */
                         bvalido = true;
-                        LoggerClass.Log($"JM185384 - command addgroup");
+                                               LoggerClass.Log($"JM185384 - command addgroup");
                         string strgroupName = string.Empty;
                         string strdenied = string.Empty;
+                        String pattern = "^[A-Za-z]+$";
+                        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
 
+                        if (regex.IsMatch(args[0]))
+                            LoggerClass.Log($"JM185384 - NameGroup OK");
+                        else
+                        {
+                            LoggerClass.Log($"JM185384 - Incorrect characters, please check input namegroup parameters");
+                            return;
+                        }
+                            
                         strgroupName = args[0].Trim();
                         strdenied = args[1].Trim();
                         bool aa = CreateGroup(doc, strgroupName, strdenied);
