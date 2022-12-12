@@ -24,243 +24,291 @@ namespace SupervisorProfileManager
             string strPathFile = string.Empty;
             RegistryKey localKey;
             bool bvalido = false;
-
-            try
+            
+            // JM185384 Check if feature is istalled
+            if(!File.Exists(@"C:\Program Files\NCR APTRA\Advance NDC\Supervisor.dll.NOPERFILADO"))
             {
-                LoggerClass.Log($"args number : {args.Length.ToString()}");
-               /* for (int i = 0; i < args.Length; i++)
+                LoggerClass.Log($"JM185384  : Command not valid, Supervisor Profile Feature not installed");
+            }
+            else
+            {
+                if(!File.Exists(@"C:\Program Files\NCR APTRA\Advance NDC\Config\SupvPwd.xml"))
                 {
-                    LoggerClass.Log($"args params : {args[i].ToString()}");
-                }*/
-/*
-                if (Environment.Is64BitOperatingSystem)
-                {
-                    localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-                    LoggerClass.Log($"OS 64bits");
+                    LoggerClass.Log($"JM185384  : Config File not Found");
                 }
-                else
+                else{
+
+                
+                LoggerClass.Log($"JM185384  : Supervisor Profile Feature installed");
+                try
                 {
+                    LoggerClass.Log($"args number : {args.Length.ToString()}");
+                    #region "Comments"
+                    /* for (int i = 0; i < args.Length; i++)
+                     {
+                         LoggerClass.Log($"args params : {args[i].ToString()}");
+                     }*/
+                    /*
+                                    if (Environment.Is64BitOperatingSystem)
+                                    {
+                                        localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                                        LoggerClass.Log($"OS 64bits");
+                                    }
+                                    else
+                                    {
+                                        localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+                                        LoggerClass.Log($"OS 32bits");
+                                    }
+                    */
+                    #endregion
                     localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
-                    LoggerClass.Log($"OS 32bits");
-                }
-*/
-                localKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
 
-                LoggerClass.Log($"LocalKey Value {localKey.ToString()}");
-                string strPathFilevalue = localKey.OpenSubKey("SOFTWARE\\NCR\\Advance NDC\\supervisor\\Password").GetValue("XMLFilePath").ToString();
-                int intSupervisorPasswordLength = Convert.ToInt32(localKey.OpenSubKey("SOFTWARE\\NCR\\Advance NDC\\supervisor\\Password").GetValue("SupervisorPasswordLength").ToString());
-                //LoggerClass.Log($"strPathFilevalue Value {strPathFilevalue.ToString()}");
-                if ((localKey != null) && (string.IsNullOrEmpty(strPathFilevalue)== false))
-                    {
-                        Globals.strPathFile = strPathFilevalue;
-                        Globals.intSupervisorPasswordLength = intSupervisorPasswordLength;
-                        LoggerClass.Log($"Path file was found in the registry");
-                    }
-                    else
-                    {
-                        Globals.strPathFile = @"C:\Program Files\NCR APTRA\Advance NDC\Config\SupvPwd.xml";
-                        LoggerClass.Log($"Path file was not found in the registry");
-                    }
-                if (args.Length == 0)
-                {
-                    LoggerClass.Log($"JM185384 - command with no arguments");
-                    // Console.WriteLine("Invalid format. Please read documentation, press any key for exit");
-                    LoggerClass.Log($"Invalid format. Please read the documentation");
-                    //Console.Read();
-                    return;
-                }
-                doc = LoadXML(doc, Globals.strPathFile);
-                if (args.Length == 1)
-                {
-                    if (args[0].Substring(1, args[0].Length - 1).ToLower() == "listgroups")
-                    {
-                        // /listgroup 
-                        bvalido = true;
-                        LoggerClass.Log($"JM185384 - command listgroups");
-                        docXML = xmlToList(doc);
-                        ListGroups(docXML);
-
-                    }
-                    if (args[0].Substring(1, args[0].Length - 1).ToLower() == "listusers")
-                    {
-                        // /listusers 
-                        bvalido = true;
-                        LoggerClass.Log($"JM185384 - command listusers");
-                        docXML = xmlToList(doc);
-                        ListUsers(docXML);
-
-                    }
-                }
-                if (args.Length == 4)
-                {
-                    if (args[3].Substring(1, args[3].Length - 1).ToLower() == "updategroup")
-                    {
-                        LoggerClass.Log($"JM185384 - command updategroup");
-                        // idgroup groupname(optional) deniedupdate(optional) /updategroup 
-                        bvalido = true;
-                        string strNameGroup = string.Empty;
-                        string strIdGroup = string.Empty;
-                        string strDeniedGroup = string.Empty;
-                        //String pattern = "^[A-Za-z]+$";
-                        String pattern = "^[A-Za-z0-9\\s]+$"; //EXPRESION REGULAR PARA ESPACIOS EN BLANCO LETRAS Y NUMEROS
-                        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
-
-                       if (regex.IsMatch(args[1]))
-                            LoggerClass.Log($"JM185384 - Namegroup OK");
+                    LoggerClass.Log($"LocalKey Value {localKey.ToString()}");
+                    string strPathFilevalue = localKey.OpenSubKey("SOFTWARE\\NCR\\Advance NDC\\supervisor\\Password").GetValue("XMLFilePath").ToString();
+                    int intSupervisorPasswordLength = Convert.ToInt32(localKey.OpenSubKey("SOFTWARE\\NCR\\Advance NDC\\supervisor\\Password").GetValue("SupervisorPasswordLength").ToString());
+                    //LoggerClass.Log($"strPathFilevalue Value {strPathFilevalue.ToString()}");
+                    if ((localKey != null) && (string.IsNullOrEmpty(strPathFilevalue)== false))
+                        {
+                            Globals.strPathFile = strPathFilevalue;
+                            Globals.intSupervisorPasswordLength = intSupervisorPasswordLength;
+                            LoggerClass.Log($"Path file was found in the registry");
+                        }
                         else
                         {
-                            LoggerClass.Log($"JM185384 - Incorrect characters, please check input namegroup parameters");
-                            return;
+                            Globals.strPathFile = @"C:\Program Files\NCR APTRA\Advance NDC\Config\SupvPwd.xml";
+                            LoggerClass.Log($"Path file was not found in the registry");
                         }
+                    if (args.Length == 0)
+                    {
+                        LoggerClass.Log($"JM185384 - command with no arguments");
+                        // Console.WriteLine("Invalid format. Please read documentation, press any key for exit");
+                        LoggerClass.Log($"Invalid format. Please read the documentation");
+                        //Console.Read();
+                        return;
+                    }
+                    doc = LoadXML(doc, Globals.strPathFile);
+                    if (args.Length == 1)
+                    {
+                        if (args[0].Substring(1, args[0].Length - 1).ToLower() == "listgroups")
+                        {
+                            // /listgroup 
+                            bvalido = true;
+                            LoggerClass.Log($"JM185384 - command listgroups");
+                            docXML = xmlToList(doc);
+                            ListGroups(docXML);
+
+                        }
+                        if (args[0].Substring(1, args[0].Length - 1).ToLower() == "listusers")
+                        {
+                            // /listusers 
+                            bvalido = true;
+                            LoggerClass.Log($"JM185384 - command listusers");
+                            docXML = xmlToList(doc);
+                            ListUsers(docXML);
+
+                        }
+                        if (args[0].Substring(1, args[0].Length - 1).ToLower() == "encrypterdata")
+                        {
+                                // /encrypterdata 
+                                bvalido = true;
+                            LoggerClass.Log($"JM185384 - encrypted data");
+                            DataEncrypter(doc);
+
+                        }
+                    }
+                    if (args.Length == 4)
+                    {
+                        if (args[3].Substring(1, args[3].Length - 1).ToLower() == "updategroup")
+                        {
+                            LoggerClass.Log($"JM185384 - command updategroup");
+                            // idgroup groupname(optional) deniedupdate(optional) /updategroup 
+                            bvalido = true;
+                            string strNameGroup = string.Empty;
+                            string strIdGroup = string.Empty;
+                            string strDeniedGroup = string.Empty;
+                            //String pattern = "^[A-Za-z]+$";
+                            String pattern = "^[A-Za-z0-9\\s]+$"; //EXPRESION REGULAR PARA ESPACIOS EN BLANCO LETRAS Y NUMEROS
+                            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
+
+                           if (regex.IsMatch(args[1]))
+                                LoggerClass.Log($"JM185384 - Namegroup OK");
+                            else
+                            {
+                                LoggerClass.Log($"JM185384 - Incorrect characters, please check input namegroup parameters");
+                                return;
+                            }
                     
-                        strIdGroup = args[0].Trim();
-                        strNameGroup = args[1].Trim();
-                        strDeniedGroup = args[2].Trim();
-                        bool cc = UpdateGroup(doc, strIdGroup, strNameGroup, strDeniedGroup);
+                            strIdGroup = args[0].Trim();
+                            strNameGroup = args[1].Trim();
+                            strDeniedGroup = args[2].Trim();
+                            bool cc = UpdateGroup(doc, strIdGroup, strNameGroup, strDeniedGroup);
+                            bvalido = true;
+                        }
                     }
-                }
-                if (args.Length == 3)
-                {
-
-
-
-                    if (args[2].Substring(1, args[2].Length - 1).ToLower() == "adduser")
+                    if (args.Length == 3)
                     {
-                        LoggerClass.Log($"JM185384 - command adduser");
-                        // password idgroup /adduser 
-                        bvalido = true;
-                        string password = string.Empty;
-                        string idGroup = string.Empty;
 
-                        password = args[0].Trim();
-                        bool verifica = VerificarPassword(password);
-                        if (!verifica)
+                        if (args[2].Substring(1, args[2].Length - 1).ToLower() == "adduser")
                         {
-                            LoggerClass.Log($"JM185384 - User ID wasn't created, because the password is not numeric");
-                            return;
-                        }
-                        idGroup = args[1].Trim();
-                        XmlElement objNewNode = doc.CreateElement("user");
-                        if (password.Length <= Globals.intSupervisorPasswordLength)
-                        {
-                            bool resp = AddUser(password, objNewNode, doc, idGroup);
-                        }
-                        else
-                        {
-                            LoggerClass.Log($"JM185384 - User ID wasn't created, because the password exceeds the maximum. The password must have max.{Globals.intSupervisorPasswordLength.ToString()} numbers");
-                        }
+                            LoggerClass.Log($"JM185384 - command adduser");
+                            // password idgroup /adduser 
+                        
+                            string password = string.Empty;
+                            string idGroup = string.Empty;
 
-                    }
-
-                    if (args[2].Substring(1, args[2].Length - 1).ToLower() == "updatepass")
-                    {
-                        /*
-                          userID newpass /updatepass 
-                         */
-                        bvalido = true;
-                        LoggerClass.Log($"JM185384 - command updatepass");
-                        string password = string.Empty;
-                        string idUser = string.Empty;
-                        password = args[1].Trim();
-                        bool verifica = VerificarPassword(password);
-                        if (!verifica)
-                        {
-                            LoggerClass.Log($"JM185384 - User ID wasn't updated, because the password is not numeric");
-                            return;
-                        }
-
-                        idUser = args[0].Trim();
-                        XmlElement objNewNode = doc.CreateElement("user");
-                        if (password.Length <= Globals.intSupervisorPasswordLength)
-                        {
-                            LoggerClass.Log($"JM185384 - Password length OK");
-                            bool resp3 = UpdatePassword(doc, objNewNode, idUser, password);
+                            password = args[0].Trim();
+                            bool verifica = VerificarPassword(password);
+                            if (!verifica)
+                            {
+                                LoggerClass.Log($"JM185384 - User ID wasn't created, because the password is not numeric");
+                                return;
+                            }
+                            idGroup = args[1].Trim();
+                            XmlElement objNewNode = doc.CreateElement("user");
+                            if (password.Length <= Globals.intSupervisorPasswordLength)
+                            {
+                                bool resp = AddUser(password, objNewNode, doc, idGroup);
+                                bvalido = true;
+                            }
+                            else
+                            {
+                                LoggerClass.Log($"JM185384 - User ID wasn't created, because the password exceeds the maximum. The password must have max.{Globals.intSupervisorPasswordLength.ToString()} numbers");
+                            }
 
                         }
-                        else
+                        if (args[2].Substring(1, args[2].Length - 1).ToLower() == "updatepass")
                         {
-                            LoggerClass.Log($"JM185384 - New Password for User ID {idUser} wasn't updated, because the password exceeds the maximum. The password must have max.{Globals.intSupervisorPasswordLength.ToString()} numbers");
+                            /*
+                              userID newpass /updatepass 
+                             */
+                        
+                            LoggerClass.Log($"JM185384 - command updatepass");
+                            string password = string.Empty;
+                            string idUser = string.Empty;
+                            password = args[1].Trim();
+                            bool verifica = VerificarPassword(password);
+                            if (!verifica)
+                            {
+                                LoggerClass.Log($"JM185384 - User ID wasn't updated, because the password is not numeric");
+                                return;
+                            }
+
+                            idUser = args[0].Trim();
+                            XmlElement objNewNode = doc.CreateElement("user");
+                            if (password.Length <= Globals.intSupervisorPasswordLength)
+                            {
+                                LoggerClass.Log($"JM185384 - Password length OK");
+                                bool resp3 = UpdatePassword(doc, objNewNode, idUser, password);
+                                bvalido = true;
+
+                            }
+                            else
+                            {
+                                LoggerClass.Log($"JM185384 - New Password for User ID {idUser} wasn't updated, because the password exceeds the maximum. The password must have max.{Globals.intSupervisorPasswordLength.ToString()} numbers");
+                            }
+
                         }
-
-                    }
-                    if (args[2].Substring(1, args[2].Length - 1).ToLower() == "addgroup")
-                    {
-                        /*
-                          groupName denied /addgroup 
-                         */
-                        bvalido = true;
-                                               LoggerClass.Log($"JM185384 - command addgroup");
-                        string strgroupName = string.Empty;
-                        string strdenied = string.Empty;
-                      //  String pattern = "^[A-Za-z]+$";
-                        String pattern = "^[A-Za-z0-9\\s]+$";
-                        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
-
-                        if (regex.IsMatch(args[0]))
-                            LoggerClass.Log($"JM185384 - NameGroup OK");
-                        else
+                        if (args[2].Substring(1, args[2].Length - 1).ToLower() == "addgroup")
                         {
-                            LoggerClass.Log($"JM185384 - Incorrect characters, please check input namegroup parameters");
-                            return;
-                        }
+                            /*
+                              groupName denied /addgroup 
+                             */
+                        
+                            LoggerClass.Log($"JM185384 - command addgroup");
+                            string strgroupName = string.Empty;
+                            string strdenied = string.Empty;
+                          //  String pattern = "^[A-Za-z]+$";
+                            String pattern = "^[A-Za-z0-9\\s]+$";
+                            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
+
+                            if (regex.IsMatch(args[0]))
+                                LoggerClass.Log($"JM185384 - NameGroup OK");
+                            else
+                            {
+                                LoggerClass.Log($"JM185384 - Incorrect characters, please check input namegroup parameters");
+                                return;
+                            }
                             
-                        strgroupName = args[0].Trim();
-                        strdenied = args[1].Trim();
-                        bool aa = CreateGroup(doc, strgroupName, strdenied);
+                            strgroupName = args[0].Trim();
+                            strdenied = args[1].Trim();
+                            bool aa = CreateGroup(doc, strgroupName, strdenied);
+                            bvalido = true;
+                        }
                     }
-                }
-                if (args.Length == 2)
-                {
-
-                    if (args[1].Substring(1, args[1].Length - 1).ToLower() == "deluser")
+                    if (args.Length == 2)
                     {
-                        /*
-                            userID /deluser 
-                        */
-                        bvalido = true;
-                        LoggerClass.Log($"JM185384 - command deluser");
-                        string idUser = string.Empty;
-                        idUser = args[0].Trim();
-                        XmlElement objNewNode = doc.CreateElement("user");
-                        bool resp = DeleteUser(doc, objNewNode, idUser); ;
+
+                        if (args[1].Substring(1, args[1].Length - 1).ToLower() == "deluser")
+                        {
+                            /*
+                                userID /deluser 
+                            */
+                        
+                            LoggerClass.Log($"JM185384 - command deluser");
+                            string idUser = string.Empty;
+                            idUser = args[0].Trim();
+                            XmlElement objNewNode = doc.CreateElement("user");
+                            bool resp = DeleteUser(doc, objNewNode, idUser); ;
+                            bvalido = true;
+                        }
+                        if (args[1].Substring(1, args[1].Length - 1).ToLower() == "delgroup")
+                        {
+                            /*
+                                userID /delgroup 
+                            */
+
+                            string strGroupID = string.Empty;
+                            strGroupID = args[0].Trim();
+                            if(strGroupID != "0")
+                                bvalido = DeleteGroup(doc, strGroupID);
+                            else
+                                LoggerClass.Log($"JM185384 - ERROR: Command not allowed for this group");
+                                //bvalido = true;
+                            }
                     }
-                    if (args[1].Substring(1, args[1].Length - 1).ToLower() == "delgroup")
+                    if (bvalido == false)
                     {
-                        /*
-                            userID /delgroup 
-                        */
-
-                        string strUserID = string.Empty;
-                        strUserID = args[0].Trim();
-                        bool bb = DeleteGroup(doc, strUserID);
+                        LoggerClass.Log($"JM185384 - Command not executed, please check params");
                     }
 
                 }
-                if (bvalido == false)
+                catch (Exception ex)
                 {
-                    LoggerClass.Log($"JM185384 - Command not executed, please check params");
-                }
+                    LoggerClass.Log($"JM185384 - Error : {ex.ToString()}");
 
-            }
-            catch (Exception ex)
+                }
+                #region "Comments"
+                // XmlElement objNewNode = doc.CreateElement("user");
+                // XmlText text = doc.CreateTextNode("");
+                // docXML = xmlToList(doc);
+                // bool aa = CreateGroup(doc, "Antonia", "5;6;4;5,4");
+                // bool bb = DeleteGroup(doc, "6");
+                //   bool cc = UpdateGroup(doc, "2","","5;4,5");
+                // bool resp = AddUser("12","1111", objNewNode,doc,"2");
+                //bool resp2 = DeleteUser(doc, objNewNode, "11");
+                // bool resp3 = UpdatePassword(doc, objNewNode, "02", "1111");
+                // ListGroups(docXML);
+                // ListUsers(docXML);
+                //Console.ReadLine();
+                // string pass = EncryptOrDecrypt("1111","1");
+                // Encriptor("1111",10);
+                #endregion
+                }
+        }
+        }
+        static public void DataEncrypter(XmlDocument doc)
+        {
+            XmlElement elemento = doc.DocumentElement;
+            int cantidadGrupos = elemento.ChildNodes.Count;
+            string strDeniedEncryp = string.Empty;
+            for (int i = 0; i < cantidadGrupos; i++)
             {
-                LoggerClass.Log($"JM185384 - Error : {ex.ToString()}");
-
+                LoggerClass.Log($"JM185384 - The group ID {elemento.ChildNodes.Item(i).Attributes.GetNamedItem("ID").Value} Denied Before {elemento.ChildNodes.Item(i).Attributes.GetNamedItem("Denied").Value}");
+                strDeniedEncryp = Encriptor(elemento.ChildNodes.Item(i).Attributes.GetNamedItem("Denied").Value, Convert.ToInt32(elemento.ChildNodes.Item(i).Attributes.GetNamedItem("ID").Value));
+                elemento.ChildNodes.Item(i).Attributes.GetNamedItem("Denied").Value = strDeniedEncryp;
+                LoggerClass.Log($"JM185384 - The group ID {elemento.ChildNodes.Item(i).Attributes.GetNamedItem("ID").Value} Denied After {elemento.ChildNodes.Item(i).Attributes.GetNamedItem("Denied").Value}");
+                doc.Save(Globals.strPathFile);
             }
-            // XmlElement objNewNode = doc.CreateElement("user");
-            // XmlText text = doc.CreateTextNode("");
-           // docXML = xmlToList(doc);
-            // bool aa = CreateGroup(doc, "Antonia", "5;6;4;5,4");
-            // bool bb = DeleteGroup(doc, "6");
-         //   bool cc = UpdateGroup(doc, "2","","5;4,5");
-           // bool resp = AddUser("12","1111", objNewNode,doc,"2");
-           //bool resp2 = DeleteUser(doc, objNewNode, "11");
-           // bool resp3 = UpdatePassword(doc, objNewNode, "02", "1111");
-           // ListGroups(docXML);
-           // ListUsers(docXML);
-           //Console.ReadLine();
-           // string pass = EncryptOrDecrypt("1111","1");
-           // Encriptor("1111",10);
         }
         static public void ListGroups(List<cGroup> Groups)
         {
@@ -551,6 +599,7 @@ namespace SupervisorProfileManager
             {
                 LoggerClass.Log($"JM185384 - cantidadGrupos = 0");
                 objNewNode.SetAttribute("ID", "0");
+                denied = Encriptor(denied, Convert.ToInt32("0"));
                 objNewNode.SetAttribute("Denied", denied);
                 objNewNode.SetAttribute("Name", groupName);
                 elemento.InsertBefore(objNewNode, elemento.ChildNodes.Item(0));
@@ -564,6 +613,7 @@ namespace SupervisorProfileManager
                     LoggerClass.Log($"JM185384 - cantidadGrupos = 1");
                     newId = (Convert.ToInt32(elemento.LastChild.Attributes.GetNamedItem("ID").Value) + 1).ToString();
                     objNewNode.SetAttribute("ID", newId);
+                    denied = Encriptor(denied, Convert.ToInt32(newId));
                     objNewNode.SetAttribute("Denied", denied);
                     objNewNode.SetAttribute("Name", groupName);
                     elemento.AppendChild(objNewNode);
@@ -582,6 +632,7 @@ namespace SupervisorProfileManager
                                 newId = Convert.ToString(nodoAnterior + 1);
                             }
                             objNewNode.SetAttribute("ID", newId);
+                            denied = Encriptor(denied, Convert.ToInt32(newId));
                             objNewNode.SetAttribute("Denied", denied);
                             objNewNode.SetAttribute("Name", groupName);
                             elemento.InsertBefore(objNewNode,elemento.ChildNodes.Item(i+1));
@@ -592,6 +643,7 @@ namespace SupervisorProfileManager
                     {
                         newId = (Convert.ToInt32(elemento.LastChild.Attributes.GetNamedItem("ID").Value) + 1).ToString();
                         objNewNode.SetAttribute("ID", newId);
+                        denied = Encriptor(denied, Convert.ToInt32(newId));
                         objNewNode.SetAttribute("Denied", denied);
                         objNewNode.SetAttribute("Name", groupName);
                         elemento.AppendChild(objNewNode);
@@ -637,6 +689,7 @@ namespace SupervisorProfileManager
                     if (denied.Length != 0)
                     {
                         denied = denied + ";0";
+                        denied = Encriptor(denied, Convert.ToInt32(groupID));
                         elemento.ChildNodes.Item(i).Attributes.GetNamedItem("Denied").Value = denied;
                         LoggerClass.Log($"The denied option group ID {elemento.ChildNodes.Item(i).Attributes.GetNamedItem("ID").Value.ToString()} was updated");
                     }

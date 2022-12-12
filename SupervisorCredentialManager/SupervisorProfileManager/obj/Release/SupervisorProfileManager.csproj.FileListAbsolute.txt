@@ -4,3 +4,10 @@ C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileMana
 C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\obj\Release\SupervisorProfileManager.csproj.CoreCompileInputs.cache
 C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\obj\Release\SupervisorProfileManager.exe
 C:\Users\jm185384\source\repos\SupervisorCredentialManager\SupervisorProfileManager\obj\Release\SupervisorProfileManager.pdb
+C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\bin\Release\SupervisorProfileManager.exe.config
+C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\bin\Release\SupervisorProfileManager.exe
+C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\bin\Release\SupervisorProfileManager.pdb
+C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\obj\Release\SupervisorProfileManager.csproj.CoreCompileInputs.cache
+C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\obj\Release\SupervisorProfileManager.exe
+C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\obj\Release\SupervisorProfileManager.pdb
+C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\obj\Release\SupervisorProfileManager.csproj.AssemblyReference.cache

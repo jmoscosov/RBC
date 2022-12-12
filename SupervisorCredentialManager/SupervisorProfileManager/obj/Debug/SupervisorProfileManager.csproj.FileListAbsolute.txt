@@ -11,3 +11,4 @@ C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager
 C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\obj\Debug\SupervisorProfileManager.csproj.CoreCompileInputs.cache
 C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\obj\Debug\SupervisorProfileManager.exe
 C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\obj\Debug\SupervisorProfileManager.pdb
+C:\Software development\RBC\SupervisorCredentialManager\SupervisorProfileManager\obj\Debug\SupervisorProfileManager.csproj.AssemblyReference.cache
