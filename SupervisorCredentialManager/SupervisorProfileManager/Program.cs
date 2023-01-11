@@ -24,9 +24,6 @@ namespace SupervisorProfileManager
             string strPathFile = string.Empty;
             RegistryKey localKey;
             bool bvalido = false;
-            
-            // JM185384 Check if feature is istalled
-<<<<<<< HEAD
             if(!File.Exists(@"C:\Program Files\NCR APTRA\Advance NDC\Supervisor.dll.NOPERFILADO"))
             {
                 LoggerClass.Log($"JM185384  : Command not valid, Supervisor Profile Feature not installed");
@@ -41,7 +38,7 @@ namespace SupervisorProfileManager
 
                 
                 LoggerClass.Log($"JM185384  : Supervisor Profile Feature installed");
-=======
+
             if(File.Exists(@"C:\Program Files\NCR APTRA\Advance NDC\Supervisor.dll.NOPERFILADO"))
             {
                 LoggerClass.Log($"JM185384  : Command not valid, Feature not installed");
@@ -50,7 +47,6 @@ namespace SupervisorProfileManager
             {
 
             
->>>>>>> 8d35ecb9a98e5e0be11e1fe8e1161bedd3e19a3f
                 try
                 {
                     LoggerClass.Log($"args number : {args.Length.ToString()}");
@@ -118,7 +114,7 @@ namespace SupervisorProfileManager
                             ListUsers(docXML);
 
                         }
-<<<<<<< HEAD
+
                         if (args[0].Substring(1, args[0].Length - 1).ToLower() == "encrypterdata")
                         {
                                 // /encrypterdata 
@@ -127,8 +123,6 @@ namespace SupervisorProfileManager
                             DataEncrypter(doc);
 
                         }
-=======
->>>>>>> 8d35ecb9a98e5e0be11e1fe8e1161bedd3e19a3f
                     }
                     if (args.Length == 4)
                     {
@@ -162,17 +156,6 @@ namespace SupervisorProfileManager
                     if (args.Length == 3)
                     {
 
-<<<<<<< HEAD
-                        if (args[2].Substring(1, args[2].Length - 1).ToLower() == "adduser")
-                        {
-                            LoggerClass.Log($"JM185384 - command adduser");
-                            // password idgroup /adduser 
-                        
-                            string password = string.Empty;
-                            string idGroup = string.Empty;
-
-=======
-
 
                         if (args[2].Substring(1, args[2].Length - 1).ToLower() == "adduser")
                         {
@@ -182,8 +165,18 @@ namespace SupervisorProfileManager
                             string password = string.Empty;
                             string idGroup = string.Empty;
 
->>>>>>> 8d35ecb9a98e5e0be11e1fe8e1161bedd3e19a3f
-                            password = args[0].Trim();
+
+
+
+                        if (args[2].Substring(1, args[2].Length - 1).ToLower() == "adduser")
+                        {
+                            LoggerClass.Log($"JM185384 - command adduser");
+                            // password idgroup /adduser 
+                        
+                            string password = string.Empty;
+                            string idGroup = string.Empty;
+
+                           password = args[0].Trim();
                             bool verifica = VerificarPassword(password);
                             if (!verifica)
                             {
@@ -203,7 +196,7 @@ namespace SupervisorProfileManager
                             }
 
                         }
-<<<<<<< HEAD
+
                         if (args[2].Substring(1, args[2].Length - 1).ToLower() == "updatepass")
                         {
                             /*
@@ -323,7 +316,7 @@ namespace SupervisorProfileManager
                                 userID /delgroup 
                             */
 
-<<<<<<< HEAD
+
                             string strGroupID = string.Empty;
                             strGroupID = args[0].Trim();
                             if(strGroupID != "0")
@@ -332,14 +325,14 @@ namespace SupervisorProfileManager
                                 LoggerClass.Log($"JM185384 - ERROR: Command not allowed for this group");
                                 //bvalido = true;
                             }
-=======
+
                             string strUserID = string.Empty;
                             strUserID = args[0].Trim();
                             bool bb = DeleteGroup(doc, strUserID);
                             bvalido = true;
                         }
 
->>>>>>> 8d35ecb9a98e5e0be11e1fe8e1161bedd3e19a3f
+
                     }
                     if (bvalido == false)
                     {
@@ -368,7 +361,7 @@ namespace SupervisorProfileManager
                 // string pass = EncryptOrDecrypt("1111","1");
                 // Encriptor("1111",10);
                 #endregion
-<<<<<<< HEAD
+
                 }
         }
         }
@@ -384,8 +377,7 @@ namespace SupervisorProfileManager
                 elemento.ChildNodes.Item(i).Attributes.GetNamedItem("Denied").Value = strDeniedEncryp;
                 LoggerClass.Log($"JM185384 - The group ID {elemento.ChildNodes.Item(i).Attributes.GetNamedItem("ID").Value} Denied After {elemento.ChildNodes.Item(i).Attributes.GetNamedItem("Denied").Value}");
                 doc.Save(Globals.strPathFile);
-=======
->>>>>>> 8d35ecb9a98e5e0be11e1fe8e1161bedd3e19a3f
+
             }
         }
         static public void ListGroups(List<cGroup> Groups)
