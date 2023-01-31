@@ -1,0 +1,6 @@
+C:\Users\jm185384\source\repos\SupervisorProfileManager\ConsoleApp1\obj\Debug\SupervisorProfileManager.csproj.CoreCompileInputs.cache
+C:\Users\jm185384\source\repos\SupervisorProfileManager\ConsoleApp1\bin\Debug\SupervisorProfileManager.exe.config
+C:\Users\jm185384\source\repos\SupervisorProfileManager\ConsoleApp1\bin\Debug\SupervisorProfileManager.exe
+C:\Users\jm185384\source\repos\SupervisorProfileManager\ConsoleApp1\bin\Debug\SupervisorProfileManager.pdb
+C:\Users\jm185384\source\repos\SupervisorProfileManager\ConsoleApp1\obj\Debug\SupervisorProfileManager.exe
+C:\Users\jm185384\source\repos\SupervisorProfileManager\ConsoleApp1\obj\Debug\SupervisorProfileManager.pdb
