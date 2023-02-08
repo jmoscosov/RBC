@@ -153,17 +153,6 @@ namespace SupervisorProfileManager
                             }
                             if (args.Length == 3)
                             {
-                                if (args[2].Substring(1, args[2].Length - 1).ToLower() == "adduser")
-                                {
-                                    LoggerClass.Log($"JM185384 - command adduser");
-                                    // password idgroup /adduser 
-
-                             /*       string password = string.Empty;
-                                    string idGroup = string.Empty;
-                             */
-
-
-
                                     if (args[2].Substring(1, args[2].Length - 1).ToLower() == "adduser")
                                     {
                                         LoggerClass.Log($"JM185384 - command adduser");
@@ -225,7 +214,7 @@ namespace SupervisorProfileManager
                                         }
 
                                     }
-                                    if (args[2].Substring(1, args[2].Length - 1).ToLower() == "addgroup")
+                                    if (args[2].Substring(1, args[2].Length - 1).ToLower() == "updatepass")
                                     {
                                         /*
             =======
@@ -289,8 +278,9 @@ namespace SupervisorProfileManager
                                         bool aa = CreateGroup(doc, strgroupName, strdenied);
                                         bvalido = true;
                                     }
-                                }
-                                if (args.Length == 2)
+                              //  }
+                                
+                            if (args.Length == 2)
                                 {
 
                                     if (args[1].Substring(1, args[1].Length - 1).ToLower() == "deluser")
@@ -703,7 +693,7 @@ namespace SupervisorProfileManager
                 {
                     for (int i = 0; i <= cantidadGrupos - 2; i++)
                     {
-                        LoggerClass.Log($"JM185384 - cantidadGrupos = {cantidadGrupos.ToString()}");
+                        //LoggerClass.Log($"JM185384 - cantidadGrupos = {cantidadGrupos.ToString()}");
                         int nodoAnterior = Convert.ToInt32(elemento.ChildNodes.Item(i).Attributes.GetNamedItem("ID").Value);
                         int nodoNuevo = Convert.ToInt32(elemento.ChildNodes.Item(i + 1).Attributes.GetNamedItem("ID").Value);
                         if ((nodoAnterior + 1) != nodoNuevo)
