@@ -151,6 +151,44 @@ namespace SupervisorProfileManager
                                     bvalido = true;
                                 }
                             }
+                            if (args.Length == 2)
+                            {
+
+                                if (args[1].Substring(1, args[1].Length - 1).ToLower() == "deluser")
+                                {
+                                    /*
+                                        userID /deluser 
+                                    */
+
+                                    LoggerClass.Log($"JM185384 - command deluser");
+                                    string idUser = string.Empty;
+                                    idUser = args[0].Trim();
+                                    XmlElement objNewNode = doc.CreateElement("user");
+                                    bool resp = DeleteUser(doc, objNewNode, idUser); ;
+                                    bvalido = true;
+                                }
+                                if (args[1].Substring(1, args[1].Length - 1).ToLower() == "delgroup")
+                                {
+                                    /*
+                                        userID /delgroup 
+                                    */
+
+
+                                    string strGroupID = string.Empty;
+                                    strGroupID = args[0].Trim();
+                                    if (strGroupID != "0")
+                                        bvalido = DeleteGroup(doc, strGroupID);
+                                    else
+                                        LoggerClass.Log($"JM185384 - ERROR: Command not allowed for this group");
+                                    //bvalido = true;
+                                }
+                                /*
+                                                                    string strUserID = string.Empty;
+                                                                    strUserID = args[0].Trim();
+                                                                    bool bb = DeleteGroup(doc, strUserID);
+                                                                    bvalido = true;
+                                */
+                            }
                             if (args.Length == 3)
                             {
                                     if (args[2].Substring(1, args[2].Length - 1).ToLower() == "adduser")
@@ -177,7 +215,7 @@ namespace SupervisorProfileManager
                                         }
                                         else
                                         {
-                                            LoggerClass.Log($"JM185384 - User ID wasn't created, because the password exceeds the maximum. The password must have max.{Globals.intSupervisorPasswordLength.ToString()} numbers");
+                                            LoggerClass.Log($"JM185384 - User ID wasn't created, because the password exceeds the maximum. The password must have max. 10 numbers ");//{Globals.intSupervisorPasswordLength.ToString()} numbers");
                                         }
 
                                     }
@@ -280,45 +318,6 @@ namespace SupervisorProfileManager
                                     }
                               //  }
                                 
-                            if (args.Length == 2)
-                                {
-
-                                    if (args[1].Substring(1, args[1].Length - 1).ToLower() == "deluser")
-                                    {
-                                        /*
-                                            userID /deluser 
-                                        */
-
-                                        LoggerClass.Log($"JM185384 - command deluser");
-                                        string idUser = string.Empty;
-                                        idUser = args[0].Trim();
-                                        XmlElement objNewNode = doc.CreateElement("user");
-                                        bool resp = DeleteUser(doc, objNewNode, idUser); ;
-                                        bvalido = true;
-                                    }
-                                    if (args[1].Substring(1, args[1].Length - 1).ToLower() == "delgroup")
-                                    {
-                                        /*
-                                            userID /delgroup 
-                                        */
-
-
-                                        string strGroupID = string.Empty;
-                                        strGroupID = args[0].Trim();
-                                        if (strGroupID != "0")
-                                            bvalido = DeleteGroup(doc, strGroupID);
-                                        else
-                                            LoggerClass.Log($"JM185384 - ERROR: Command not allowed for this group");
-                                        //bvalido = true;
-                                    }
-/*
-                                    string strUserID = string.Empty;
-                                    strUserID = args[0].Trim();
-                                    bool bb = DeleteGroup(doc, strUserID);
-                                    bvalido = true;
-*/
-                                }
-
 
                             }
                             if (bvalido == false)
@@ -454,9 +453,14 @@ namespace SupervisorProfileManager
             {
                 string temp;
                 temp = pwd.Substring(p, 1);
+                if(temp == "5")
+                {
+
+                }
                 var temp3 = Encoding.ASCII.GetBytes(s[id_temp])[0];
                 var temp4 = Encoding.ASCII.GetBytes(temp)[0];
-                var result = temp3 ^ temp4;
+                //var result = temp3 ^ temp4;
+                var result = temp4 ^ temp3;
                 cadena += Convert.ToChar(result).ToString();
                 id_temp += 1;
                /* if(id_temp > pwd.Length || id_temp == s.Count)
