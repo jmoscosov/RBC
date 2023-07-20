@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33801.468
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClearFolderUtility", "ClearFolderUtility\ClearFolderUtility.csproj", "{FFEA47E0-F04F-429A-87C7-0AC88204E77A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFEA47E0-F04F-429A-87C7-0AC88204E77A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFEA47E0-F04F-429A-87C7-0AC88204E77A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFEA47E0-F04F-429A-87C7-0AC88204E77A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFEA47E0-F04F-429A-87C7-0AC88204E77A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D2B2F34B-7F0A-496A-A129-0D0840E80B88}
+	EndGlobalSection
+EndGlobal

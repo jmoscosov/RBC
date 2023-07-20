@@ -1,0 +1,7 @@
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\bin\Release\ClearFolderUtility.exe.config
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\bin\Release\ClearFolderUtility.exe
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\bin\Release\ClearFolderUtility.pdb
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\obj\Release\ClearFolderUtility.csproj.AssemblyReference.cache
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\obj\Release\ClearFolderUtility.csproj.CoreCompileInputs.cache
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\obj\Release\ClearFolderUtility.exe
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\obj\Release\ClearFolderUtility.pdb

@@ -1,0 +1,16 @@
+C:\Users\jaime\source\repos\ClearFolderUtility\ClearFolderUtility\bin\Debug\ClearFolderUtility.exe
+C:\Users\jaime\source\repos\ClearFolderUtility\ClearFolderUtility\bin\Debug\ClearFolderUtility.pdb
+C:\Users\jaime\source\repos\ClearFolderUtility\ClearFolderUtility\obj\Debug\ClearFolderUtility.csproj.AssemblyReference.cache
+C:\Users\jaime\source\repos\ClearFolderUtility\ClearFolderUtility\obj\Debug\ClearFolderUtility.csproj.CoreCompileInputs.cache
+C:\Users\jaime\source\repos\ClearFolderUtility\ClearFolderUtility\obj\Debug\ClearFolderUtility.exe
+C:\Users\jaime\source\repos\ClearFolderUtility\ClearFolderUtility\obj\Debug\ClearFolderUtility.pdb
+C:\Users\jaime\source\repos\ClearFolderUtility\ClearFolderUtility\bin\Debug\ClearFolderUtility.exe.config
+C:\Users\jaime\source\repos\ClearFolderUtility\ClearFolderUtility\obj\Debug\ClearFolderUtility.csproj.SuggestedBindingRedirects.cache
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\bin\Debug\ClearFolderUtility.exe.config
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\bin\Debug\ClearFolderUtility.exe
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\bin\Debug\ClearFolderUtility.pdb
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\obj\Debug\ClearFolderUtility.csproj.AssemblyReference.cache
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\obj\Debug\ClearFolderUtility.csproj.SuggestedBindingRedirects.cache
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\obj\Debug\ClearFolderUtility.csproj.CoreCompileInputs.cache
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\obj\Debug\ClearFolderUtility.exe
+D:\NetDevelop\ClearFolderUtility\ClearFolderUtility\obj\Debug\ClearFolderUtility.pdb
